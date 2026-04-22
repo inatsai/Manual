@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>設計組長職代交接手冊 (2026.01.06 更新)</title>
+    <title>設計組長職代交接手冊 (2026.04.22 更新)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -35,6 +35,27 @@
         .copy-btn:active {
             transform: scale(0.95);
         }
+        
+        /* Chatbot 特效 */
+        .typing-indicator span {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background-color: #9ca3af;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+            margin-right: 2px;
+        }
+        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+        .chat-bubble {
+            max-width: 80%;
+            word-wrap: break-word;
+        }
     </style>
 </head>
 <body class="flex h-screen overflow-hidden text-gray-800">
@@ -49,22 +70,22 @@
             <p class="text-xs text-gray-500 mt-2">Update: 2026.01.06</p>
         </div>
         <nav class="flex-1 overflow-y-auto py-4" id="nav-menu">
-            <a href="#" onclick="switchTab('venue')" class="nav-item active block px-6 py-3 text-sm text-gray-600 hover:bg-gray-50 transition-colors">
+            <a href="#" onclick="switchTab(event, 'venue')" class="nav-item active block px-6 py-3 text-sm text-gray-600 hover:bg-gray-50 transition-colors">
                 <i class="fas fa-store w-5"></i> 分會場
             </a>
-            <a href="#" onclick="switchTab('edm')" class="nav-item block px-6 py-3 text-sm text-gray-600 hover:bg-gray-50 transition-colors">
+            <a href="#" onclick="switchTab(event, 'edm')" class="nav-item block px-6 py-3 text-sm text-gray-600 hover:bg-gray-50 transition-colors">
                 <i class="fas fa-envelope-open-text w-5"></i> EDM
             </a>
-            <a href="#" onclick="switchTab('package')" class="nav-item block px-6 py-3 text-sm text-gray-600 hover:bg-gray-50 transition-colors">
+            <a href="#" onclick="switchTab(event, 'package')" class="nav-item block px-6 py-3 text-sm text-gray-600 hover:bg-gray-50 transition-colors">
                 <i class="fas fa-box-open w-5"></i> 包套 / 額外包套
             </a>
-            <a href="#" onclick="switchTab('ads')" class="nav-item block px-6 py-3 text-sm text-gray-600 hover:bg-gray-50 transition-colors">
+            <a href="#" onclick="switchTab(event, 'ads')" class="nav-item block px-6 py-3 text-sm text-gray-600 hover:bg-gray-50 transition-colors">
                 <i class="fas fa-ad w-5"></i> 外廣 & 首頁HeroBanner
             </a>
-            <a href="#" onclick="switchTab('emergency')" class="nav-item block px-6 py-3 text-sm text-gray-600 hover:bg-gray-50 transition-colors">
+            <a href="#" onclick="switchTab(event, 'emergency')" class="nav-item block px-6 py-3 text-sm text-gray-600 hover:bg-gray-50 transition-colors">
                 <i class="fas fa-tools w-5"></i> 緊急修改 / 櫥窗
             </a>
-            <a href="#" onclick="switchTab('rules')" class="nav-item block px-6 py-3 text-sm text-gray-600 hover:bg-gray-50 transition-colors">
+            <a href="#" onclick="switchTab(event, 'rules')" class="nav-item block px-6 py-3 text-sm text-gray-600 hover:bg-gray-50 transition-colors">
                 <i class="fas fa-exclamation-triangle w-5 text-red-500"></i> 臨時需求對應原則
             </a>
         </nav>
@@ -93,7 +114,7 @@
                         <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2"><span class="bg-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-sm">1</span> 前期準備與波段確認</h3>
                         <ul class="list-disc list-inside text-gray-600 space-y-2 mb-4">
                             <li>主管(黃義洲)於<span class="font-bold text-blue-600">組長窗</span>公告該月造節檔期、波段、出檔時間 (通常落於上月底至本月初)。</li>
-                            <li>組長於 <span class="font-bold text-blue-600 text-decoration: underline"><a href="https://chat.google.com/room/AAAA4FeKcMc?cls=7" target="_blank" >全3C分會場_公版校稿窗</a></span> 主動 Tag 品類行銷詢問波段。</li>
+                            <li>組長於 <span class="font-bold text-blue-600 underline"><a href="https://chat.google.com/room/AAAA4FeKcMc?cls=7" target="_blank" >全3C分會場_公版校稿窗</a></span> 主動 Tag 品類行銷詢問波段。</li>
                         </ul>
                         
                         <!-- 範例區塊 -->
@@ -113,7 +134,7 @@
                     <!-- 步驟 3 -->
                     <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
                         <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2"><span class="bg-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-sm">2</span> 主視覺與公版確認</h3>
-                        <p class="text-gray-600 mb-4">全站主視覺出來後(主管會通知)，於 <span class="font-bold text-blue-600 text-decoration: underline"><a href="https://chat.google.com/room/AAAA4FeKcMc?cls=7" target="_blank" >全3C分會場_公版校稿窗</a></span> 詢問大標、架構、色系，定案後 Pass 給製作組員。</p>
+                        <p class="text-gray-600 mb-4">全站主視覺出來後(主管會通知)，於 <span class="font-bold text-blue-600 underline"><a href="https://chat.google.com/room/AAAA4FeKcMc?cls=7" target="_blank" >全3C分會場_公版校稿窗</a></span> 詢問大標、架構、色系，定案後 Pass 給製作組員。</p>
                         
                         <div class="bg-gray-50 rounded-md border border-gray-200 relative group">
                             <div class="absolute top-2 right-2">
@@ -121,15 +142,14 @@
                                     <i class="far fa-copy"></i> 複製範本
                                 </button>
                             </div>
-                            <div class="p-4 pt-8 text-sm text-gray-700 font-mono whitespace-pre-line" id="copy-2">
-                                各位好～ 【xxxxx】 分會場公版即將開始製作
-                                想詢問一下各位以下有無需要調整：
-                                1. 大標是否維持上回？ (3C電競 / 3C周邊 / 大型家電 / 家電瘋搶 / 數位狂歡 / 通訊激殺)
-                                2. 配色是否延續上回？ (電競周邊:藍(配色希望電競/周邊差異能大一點) / 大家電:紅 小家電:粉紅 / 通訊:綠 / 數位:橘)
-                                3. 架構版型是否同上一檔？
-                                分會場版型規範：自由配10個元件（列）（含全站活動）
-                                （請注意：如版型架構、元件類型、元件尺寸等有需要調整，請在這邊一併提出修改，波段製作時，因時間有限就不再調整囉！）
-                                再請抽空最晚今日下班前回覆 感恩～ （以下附上本次全站視覺參考）</div>
+                            <div class="p-4 pt-8 text-sm text-gray-700 font-mono whitespace-pre-line" id="copy-2">各位好～ 【xxxxx】 分會場公版即將開始製作
+想詢問一下各位以下有無需要調整：
+1. 大標是否維持上回？ (3C電競 / 3C周邊 / 大型家電 / 家電瘋搶 / 數位狂歡 / 通訊激殺)
+2. 配色是否延續上回？ (電競周邊:藍(配色希望電競/周邊差異能大一點) / 大家電:紅 小家電:粉紅 / 通訊:綠 / 數位:橘)
+3. 架構版型是否同上一檔？
+分會場版型規範：自由配10個元件（列）（含全站活動）
+（請注意：如版型架構、元件類型、元件尺寸等有需要調整，請在這邊一併提出修改，波段製作時，因時間有限就不再調整囉！）
+再請抽空最晚今日下班前回覆 感恩～ （以下附上本次全站視覺參考）</div>
                         </div>
                     </div>
 
@@ -170,7 +190,7 @@
                         <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2"><span class="bg-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-sm">4</span> 換品與紀錄</h3>
                         <ul class="list-disc list-inside text-gray-600 space-y-2">
                             <li>於相關 Chat 工作窗，公告該檔造節波段、入稿時間、負責設計，並 tag 品類行銷。</li>
-                            <li><span class="font-bold">填寫<span class="font-bold text-blue-600 text-decoration: underline"><a href="https://docs.google.com/spreadsheets/d/1T08TbNLGg0QpGpDTgtpSwVTtZTgk4n36XYH3sJiLzLg/edit?gid=327141045#gid=327141045" target="_blank" >OGSM 表單</a></span>：</span> 檔期記錄填寫。</li>
+                            <li><span class="font-bold">填寫<span class="font-bold text-blue-600 underline"><a href="https://docs.google.com/spreadsheets/d/1T08TbNLGg0QpGpDTgtpSwVTtZTgk4n36XYH3sJiLzLg/edit?gid=327141045#gid=327141045" target="_blank" >OGSM 表單</a></span>：</span> 檔期記錄填寫。</li>
                         </ul>
                         
                         <div class="mt-4 bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded text-sm text-yellow-800">
@@ -185,12 +205,12 @@
                 <div class="mb-6 flex justify-between items-end border-b pb-4">
                     <div>
                         <h2 class="text-2xl font-bold text-gray-900">EDM 作業流程</h2>
-                        <p class="text-gray-500 mt-1">每月於<span class="font-bold text-blue-600 text-decoration: underline"><a href="https://docs.google.com/spreadsheets/d/1XxGgQKK2LzINzZbtOCnytOD0uTA80alRDZsM2tvpXao/edit?gid=1454746358#gid=1454746358" target="_blank" > 製播單 </a></span>上查看需求並按走期時間安排人力排程。</p>
+                        <p class="text-gray-500 mt-1">每月於<span class="font-bold text-blue-600 underline"><a href="https://docs.google.com/spreadsheets/d/1XxGgQKK2LzINzZbtOCnytOD0uTA80alRDZsM2tvpXao/edit?gid=1454746358#gid=1454746358" target="_blank" > 製播單 </a></span>上查看需求並按走期時間安排人力排程。</p>
                     </div>
                     <div class="text-right">
                         <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded shadow-sm">數位：吳綺恩</span>
                         <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded shadow-sm ml-1">家電：楊韻慈</span>
-                        <div class="text-xs text-gray-500 mt-1">及該檔所屬PM/企劃 (見<span class="font-bold text-blue-500 text-decoration: underline"><a href="https://docs.google.com/spreadsheets/d/18GDYB2Z9iObsnBq-XXaZS6JcXkYJrCKBexuPqsTKVKY/edit?gid=156138835#gid=156138835" target="_blank" >PM通訊錄</a></span>)</div>
+                        <div class="text-xs text-gray-500 mt-1">及該檔所屬PM/企劃 (見<span class="font-bold text-blue-500 underline"><a href="https://docs.google.com/spreadsheets/d/18GDYB2Z9iObsnBq-XXaZS6JcXkYJrCKBexuPqsTKVKY/edit?gid=156138835#gid=156138835" target="_blank" >PM通訊錄</a></span>)</div>
                     </div>
                 </div>
 
@@ -203,9 +223,9 @@
                             <li>提前約 2~3 週於班表安排排程 (新品上線或其他特殊例外)。</li>
                             <li>若超出填寫時間仍無內容，提醒品類行銷補填。</li>
                             <li>開立 Chat 工作窗邀相關 PM/企劃入稿，Tag 負責設計。</li>
-                            <li>回填製播單入稿時間，同步填入 <span class="font-bold text-blue-600 text-decoration: underline"><a href="https://docs.google.com/spreadsheets/d/1T08TbNLGg0QpGpDTgtpSwVTtZTgk4n36XYH3sJiLzLg/edit?gid=327141045#gid=327141045" target="_blank" >OGSM 表單</a></span>。</li>
+                            <li>回填製播單入稿時間，同步填入 <span class="font-bold text-blue-600 underline"><a href="https://docs.google.com/spreadsheets/d/1T08TbNLGg0QpGpDTgtpSwVTtZTgk4n36XYH3sJiLzLg/edit?gid=327141045#gid=327141045" target="_blank" >OGSM 表單</a></span>。</li>
                             <li>組員提出一校時，上雲端做視覺確認並按需求反饋調整修改。</li>
-                            <li>案件結束後，確保前台網址與正確走期紀錄於 <span class="font-bold text-blue-600 text-decoration: underline"><a href="https://docs.google.com/spreadsheets/d/1T08TbNLGg0QpGpDTgtpSwVTtZTgk4n36XYH3sJiLzLg/edit?gid=327141045#gid=327141045" target="_blank" >OGSM 表單</a></span>。</li>
+                            <li>案件結束後，確保前台網址與正確走期紀錄於 <span class="font-bold text-blue-600 underline"><a href="https://docs.google.com/spreadsheets/d/1T08TbNLGg0QpGpDTgtpSwVTtZTgk4n36XYH3sJiLzLg/edit?gid=327141045#gid=327141045" target="_blank" >OGSM 表單</a></span>。</li>
                         </ol>
                     </div>
 
@@ -217,7 +237,7 @@
                             <li>行銷找設計組長確認是否有時間安排製作。</li>
                             <li>請 PM/企劃 通知整銷單位 (<span class="text-blue-600">陳苙萱</span>) 進 BPM 申請付費。</li>
                             <li>整銷確認付費後通知設計主管，並由相關人員填入製播單。</li>
-                            <li>組長依製播單安排人力與入稿時間，並填入 <span class="font-bold text-blue-600 text-decoration: underline"><a href="https://docs.google.com/spreadsheets/d/1T08TbNLGg0QpGpDTgtpSwVTtZTgk4n36XYH3sJiLzLg/edit?gid=327141045#gid=327141045" target="_blank" >OGSM 表單</a></span>。</li>
+                            <li>組長依製播單安排人力與入稿時間，並填入 <span class="font-bold text-blue-600 underline"><a href="https://docs.google.com/spreadsheets/d/1T08TbNLGg0QpGpDTgtpSwVTtZTgk4n36XYH3sJiLzLg/edit?gid=327141045#gid=327141045" target="_blank" >OGSM 表單</a></span>。</li>
                         </ol>
                         <div class="mt-4 bg-red-50 text-red-700 p-3 rounded text-sm font-semibold border border-red-100">
                             <i class="fas fa-exclamation-circle"></i> 重要：入稿時間前 3 天(不含假日)若未BPM申請並付費，直接抽單不製作！
@@ -249,7 +269,7 @@
                         </div>
                         <div class="flex-1 bg-blue-50 p-4 rounded border border-blue-200">
                             <h4 class="font-bold text-blue-700 mb-2">額外(投廣)包套 = 高效媒體外廣</h4>
-                            <p class="text-sm text-gray-600"><strong>必須套用公版</strong>。前期需承接製作公版（與其他組輪流），窗口對整合行銷包套組於<span class="font-bold text-blue-500 text-decoration: underline"><a href="https://chat.google.com/room/AAAA11r-_fI?cls=7" target="_blank" > 包套 x Art廣告素材窗 </a></span>承接入稿＋校稿。</p>
+                            <p class="text-sm text-gray-600"><strong>必須套用公版</strong>。前期需承接製作公版（與其他組輪流），窗口對整合行銷包套組於<span class="font-bold text-blue-500 underline"><a href="https://chat.google.com/room/AAAA11r-_fI?cls=7" target="_blank" > 包套 x Art廣告素材窗 </a></span>承接入稿＋校稿。</p>
                             <p class="text-xs text-blue-500 mt-1">*2026/01起新增 AD2 版位。</p>
                         </div>
                     </div>
@@ -280,8 +300,7 @@
                                         <i class="far fa-copy"></i>
                                     </button>
                                 </div>
-                                <div class="p-4 pt-8 text-xs text-gray-700 font-mono" id="copy-3">
-                                    1/5 xx星座包ad 再麻煩 x/xx 下班前入稿給 @[設計人名] ，包套AD規格 可參考：當月出檔包套規格表 （高效媒體外廣的部分會統一套公版，另外安排製作喲 就不在這邊入稿範圍），如有任何問題再提出， 謝謝！</div>
+                                <div class="p-4 pt-8 text-xs text-gray-700 font-mono" id="copy-3">1/5 xx星座包ad 再麻煩 x/xx 下班前入稿給 @[設計人名] ，包套AD規格 可參考：當月出檔包套規格表 （高效媒體外廣的部分會統一套公版，另外安排製作喲 就不在這邊入稿範圍），如有任何問題再提出， 謝謝！</div>
                             </div>
                         </li>
                     </ul>
@@ -301,11 +320,11 @@
                         <ul class="space-y-4 text-sm text-gray-600">
                             <li class="flex items-start gap-2">
                                 <i class="fas fa-arrow-right text-purple-400 mt-1"></i>
-                                <span>留意Chat窗： <span class="font-bold text-blue-500 text-decoration: underline"><a href="https://chat.google.com/room/AAAAmmDZv_U?cls=7" target="_blank" > 數位廣告ART討論區 </a></span> 製作需求，按所屬線別承接。 <br><span class="text-xs text-red-500">(2026/02起僅承接：數位＋大小家電)</span></span>
+                                <span>留意Chat窗： <span class="font-bold text-blue-500 underline"><a href="https://chat.google.com/room/AAAAmmDZv_U?cls=7" target="_blank" > 數位廣告ART討論區 </a></span> 製作需求，按所屬線別承接。 <br><span class="text-xs text-red-500">(2026/02起僅承接：數位＋大小家電)</span></span>
                             </li>
                             <li class="flex items-start gap-2">
                                 <i class="fas fa-arrow-right text-purple-400 mt-1"></i>
-                                <span>於<span class="font-bold text-blue-500 text-decoration: underline"><a href="https://docs.google.com/spreadsheets/d/1Pih1elmCOhKyHnc4ny1DOJJWoTYmtXkadTcPuUmG0rE/edit?pli=1&gid=1455695718#gid=1455695718" target="_blank" > 雲端外廣表格</a></span> 打勾承接（按月份頁籤）。按規格/時間開 Chat 窗邀 PM 入稿，Tag 設計執行製作。</span>
+                                <span>於<span class="font-bold text-blue-500 underline"><a href="https://docs.google.com/spreadsheets/d/1Pih1elmCOhKyHnc4ny1DOJJWoTYmtXkadTcPuUmG0rE/edit?pli=1&gid=1455695718#gid=1455695718" target="_blank" > 雲端外廣表格</a></span> 打勾承接（按月份頁籤）。按規格/時間開 Chat 窗邀 PM 入稿，Tag 設計執行製作。</span>
                             </li>
                             <li class="flex items-start gap-2">
                                 <i class="fas fa-arrow-right text-purple-400 mt-1"></i>
@@ -327,7 +346,7 @@
                             </li>
                             <li class="flex items-start gap-2">
                                 <i class="fas fa-arrow-right text-purple-400 mt-1"></i>
-                                <span>於專屬校稿窗留意進度：<br><span class="font-bold text-blue-500 text-decoration: underline"><a href="https://chat.google.com/room/AAAAYgefAXw?cls=7" target="_blank" > 雙裝置首頁版位-曝光校稿群 (品類xARTxPMx版位)</a></span></span>
+                                <span>於專屬校稿窗留意進度：<br><span class="font-bold text-blue-500 underline"><a href="https://chat.google.com/room/AAAAYgefAXw?cls=7" target="_blank" > 雙裝置首頁版位-曝光校稿群 (品類xARTxPMx版位)</a></span></span>
                             </li>
                         </ul>
                     </div>
@@ -406,9 +425,49 @@
         <span>內容已複製到剪貼簿！</span>
     </div>
 
+    <!-- AI 助手 浮動按鈕 -->
+    <button id="chat-fab" onclick="toggleChat()" class="fixed bottom-6 right-6 bg-blue-600 text-white w-14 h-14 rounded-full shadow-2xl hover:bg-blue-700 transition-transform transform hover:scale-105 z-50 flex items-center justify-center">
+        <i class="fas fa-robot text-2xl"></i>
+    </button>
+
+    <!-- AI 助手 聊天視窗 -->
+    <div id="chat-panel" class="fixed bottom-24 right-6 w-80 md:w-96 h-[500px] bg-white rounded-2xl shadow-2xl flex-col hidden z-50 border border-gray-200 overflow-hidden">
+        <!-- Header -->
+        <div class="bg-blue-600 text-white px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <i class="fas fa-robot"></i>
+                <span class="font-bold">手冊 AI 小助手</span>
+            </div>
+            <button onclick="toggleChat()" class="text-white hover:text-gray-200 focus:outline-none">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <!-- Messages Area -->
+        <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 text-sm flex flex-col">
+            <!-- 預設歡迎語 -->
+            <div class="flex justify-start">
+                <div class="bg-white border border-gray-200 text-gray-800 px-4 py-2 rounded-2xl rounded-tl-none shadow-sm chat-bubble">
+                    您好！我是交接手冊的專屬 AI 助手。關於各項專案負責人、工作流程、或是規範原則，有什麼我可以幫您的嗎？
+                </div>
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="border-t border-gray-200 p-3 bg-white flex gap-2">
+            <input type="text" id="chat-input" placeholder="例如：外廣是誰負責？" class="flex-1 border border-gray-300 rounded-full px-4 py-2 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm">
+            <button onclick="sendMessage()" id="send-btn" class="bg-blue-600 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed">
+                <i class="fas fa-paper-plane text-xs relative -left-0.5"></i>
+            </button>
+        </div>
+    </div>
+
     <script>
+        // --- 原始 UI 功能邏輯 ---
+        
         // 切換 Tab 邏輯
-        function switchTab(tabId) {
+        function switchTab(event, tabId) {
+            if(event) event.preventDefault();
             // 隱藏所有內容
             document.querySelectorAll('.content-section').forEach(section => {
                 section.classList.add('hidden');
@@ -421,7 +480,9 @@
                 item.classList.remove('active');
             });
             // 找出點擊的項目並加上 active
-            event.currentTarget.classList.add('active');
+            if(event) {
+                event.currentTarget.classList.add('active');
+            }
             
             // 捲動到最上面
             document.querySelector('main').scrollTop = 0;
@@ -455,6 +516,160 @@
             setTimeout(() => {
                 toast.classList.add('translate-y-20', 'opacity-0');
             }, 2500);
+        }
+
+        // --- AI 助手功能邏輯 ---
+
+        const apiKey = ""; // Gemini API 執行環境會自動給予 Token
+        const modelName = "gemini-2.5-flash-preview-09-2025";
+        
+        // 建構系統提示詞 (讓 AI 了解手冊內容)
+        const systemPrompt = `你是一位「設計組長職代交接手冊」的專屬 AI 助手。
+你的任務是根據以下手冊內容，友善、精準地回答使用者的問題。如果問題超出以下範圍，請回答「手冊中沒有提到這個資訊喔」。
+請用繁體中文回答。
+
+[手冊重點資訊]
+1. 分會場：負責人為數位「吳綺恩」、家電「楊韻慈」。流程包含：前期確認波段、主視覺與公版確認、製作指派與校稿(過稿、分色等)、換品與紀錄(填寫OGSM表單)。須注意與百貨二組輪流先發設計。
+2. EDM：負責人為數位「吳綺恩」、家電「楊韻慈」。分兩種：
+   - 免費EDM：提前2-3週排程，位於製播單上方。
+   - 付費EDM：由商品部申請，位於製播單下方，入稿前3天若未BPM申請並付費(聯絡人:整銷陳苙萱)，直接抽單不製作。
+3. 包套/額外包套：負責人為「陳苙萱」、「陳盈芊」、「張師嘉」。一般包套不跟公版；額外(投廣)包套等於高效媒體外廣，必須套用公版，窗口對整合行銷包套組入稿。
+4. 外廣 & 首頁HeroBanner：
+   - 外廣：窗口「馮天韻」。留意數位廣告ART討論區，於雲端外廣表格打勾承接。
+   - 首頁 HeroBanner：窗口「陳苙萱」。
+5. 緊急修改 / 櫥窗：每月於班表安排值日生。2026/02起需求端為「3C二處_數位＋3C三處_大小家電」。
+6. 臨時需求原則：
+   - 幫忙非義務。
+   - 常規任務(包套、分會場、EDM)排程優先。
+   - 誠信原則：若需延遲，最晚提前1天告知。
+   - 誠信紀錄評估影響未來協助意願。
+   - 校稿次數限制：上限 3 次，統整修改避免零散。超過次數請需求端自行拿原始檔調整。`;
+
+        const chatPanel = document.getElementById('chat-panel');
+        const chatInput = document.getElementById('chat-input');
+        const chatMessages = document.getElementById('chat-messages');
+        const sendBtn = document.getElementById('send-btn');
+
+        // 開關聊天視窗
+        function toggleChat() {
+            if (chatPanel.classList.contains('hidden')) {
+                chatPanel.classList.remove('hidden');
+                chatPanel.classList.add('flex');
+                setTimeout(() => chatInput.focus(), 100);
+            } else {
+                chatPanel.classList.add('hidden');
+                chatPanel.classList.remove('flex');
+            }
+        }
+
+        // 綁定 Enter 鍵發送
+        chatInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // 加入對話框的 HTML
+        function appendMessage(role, text) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = role === 'user' ? 'flex justify-end' : 'flex justify-start';
+            
+            let bubbleClass = role === 'user' 
+                ? 'bg-blue-600 text-white px-4 py-2 rounded-2xl rounded-tr-none shadow-sm chat-bubble'
+                : 'bg-white border border-gray-200 text-gray-800 px-4 py-2 rounded-2xl rounded-tl-none shadow-sm chat-bubble';
+            
+            // 處理換行
+            const formattedText = text.replace(/\n/g, '<br>');
+            
+            msgDiv.innerHTML = `<div class="${bubbleClass}">${formattedText}</div>`;
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight; // 滾動到底部
+        }
+
+        // 顯示/移除正在輸入動畫
+        function showTypingIndicator() {
+            const msgDiv = document.createElement('div');
+            msgDiv.id = 'typing-indicator';
+            msgDiv.className = 'flex justify-start';
+            msgDiv.innerHTML = `
+                <div class="bg-white border border-gray-200 px-4 py-3 rounded-2xl rounded-tl-none shadow-sm flex items-center typing-indicator">
+                    <span></span><span></span><span></span>
+                </div>
+            `;
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            const indicator = document.getElementById('typing-indicator');
+            if (indicator) {
+                indicator.remove();
+            }
+        }
+
+        // 實作帶有指數退避的 Retry
+        const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+        
+        async function fetchWithRetry(url, options, retries = 5) {
+            const delays = [1000, 2000, 4000, 8000, 16000];
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    return await response.json();
+                } catch (e) {
+                    if (i === retries - 1) throw e;
+                    await sleep(delays[i]);
+                }
+            }
+        }
+
+        // 發送訊息並呼叫 Gemini API
+        async function sendMessage() {
+            const text = chatInput.value.trim();
+            if (!text) return;
+
+            // 1. 使用者輸入畫面更新
+            appendMessage('user', text);
+            chatInput.value = '';
+            chatInput.disabled = true;
+            sendBtn.disabled = true;
+
+            // 2. 顯示思考中
+            showTypingIndicator();
+
+            try {
+                // 3. 準備 Payload
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
+                const payload = {
+                    contents: [{ parts: [{ text: text }] }],
+                    systemInstruction: { parts: [{ text: systemPrompt }] }
+                };
+
+                // 4. 呼叫 API
+                const data = await fetchWithRetry(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                // 5. 處理結果
+                removeTypingIndicator();
+                const aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (aiResponse) {
+                    appendMessage('ai', aiResponse);
+                } else {
+                    appendMessage('ai', '不好意思，我目前無法讀取資料，請稍後再試。');
+                }
+            } catch (error) {
+                console.error("API Error:", error);
+                removeTypingIndicator();
+                appendMessage('ai', '連線發生錯誤，請稍後再試喔。');
+            } finally {
+                chatInput.disabled = false;
+                sendBtn.disabled = false;
+                chatInput.focus();
+            }
         }
     </script>
 </body>
